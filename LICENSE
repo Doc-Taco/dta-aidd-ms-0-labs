@@ -1,0 +1,8 @@
+Proprietary — © Doc Taco. All rights reserved.
+
+This repository is the public lab template for AIDD-MS-0 (SQL Foundations). It is
+public so students can launch it via "Use this template" / GitHub Codespaces, but
+the course materials remain proprietary. The lab database image it references
+bundles Microsoft SQL Server (Developer edition) and the Microsoft AdventureWorks
+sample databases under Microsoft's own license terms (free for development and
+test use).

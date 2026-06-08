@@ -1,0 +1,33 @@
+{
+  "name": "AIDD-MS-0 — SQL Foundations Lab",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "workspace",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "customizations": {
+    "vscode": {
+      // The MSSQL extension is the query client (Azure Data Studio is retired).
+      "extensions": ["ms-mssql.mssql"],
+      "settings": {
+        // Pre-seeded connection profile so students click-to-connect: open the
+        // SQL Server view in the sidebar and click "AIDD-MS Lab", or open a .sql
+        // file and pick it. Connects as the student login to AdventureWorksLT.
+        "mssql.connections": [
+          {
+            "profileName": "AIDD-MS Lab (AdventureWorksLT)",
+            "server": "mssql,1433",
+            "database": "AdventureWorksLT",
+            "authenticationType": "SqlLogin",
+            "user": "student",
+            "password": "Student!Pass123",
+            "savePassword": true,
+            "encrypt": "Mandatory",
+            "trustServerCertificate": true
+          }
+        ]
+      }
+    }
+  },
+  // Surface the SQL Server port for tools running in the workspace if needed.
+  "forwardPorts": ["mssql:1433"],
+  "remoteUser": "vscode"
+}

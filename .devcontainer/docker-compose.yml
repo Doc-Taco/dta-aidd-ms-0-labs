@@ -1,0 +1,29 @@
+# Two-container lab: a VS Code workspace + the SQL Server "mssql" service built
+# from the shared base image (DTA-2). The base image restores AdventureWorksLT
+# (primary) and AdventureWorks (advanced) on first boot and reports healthy only
+# once SalesLT.Customer is queryable, so the workspace waits for a ready database.
+services:
+  workspace:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu-24.04
+    command: sleep infinity
+    volumes:
+      - ../..:/workspaces:cached
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  mssql:
+    # Pinned to an explicit version — never :latest. Bump to adopt a new base.
+    image: ghcr.io/doc-taco/dta-aidd-ms-labs-base:1.0.0
+    # SQL Server is amd64-only; Codespaces is amd64-native. On a local Apple
+    # Silicon machine this runs under emulation (the base image is CU1+).
+    platform: linux/amd64
+    environment:
+      MSSQL_SA_PASSWORD: "LabP@ssw0rd!2025"
+      # Student login/password come from the base image defaults
+      # (student / Student!Pass123); the connection profile uses them.
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+volumes:
+  mssql-data:
