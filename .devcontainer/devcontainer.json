@@ -3,6 +3,11 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "workspace",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  // sshd enables `gh codespace ssh` (CLI smoke tests / support); VS Code itself
+  // does not need it.
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {}
+  },
   "customizations": {
     "vscode": {
       // The MSSQL extension is the query client (Azure Data Studio is retired).
