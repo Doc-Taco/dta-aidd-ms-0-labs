@@ -56,6 +56,28 @@ jobs:
           done < <(find labs -name '*.sql' -print0 | sort -z)
           exit "$fail"
 
+      # The O-A.6 reset demo, end to end: break the data, rebuild (fresh volume),
+      # confirm the first boot restores pristine state.
+      - name: Reset demo (break -> rebuild -> pristine)
+        run: |
+          cid="$(docker compose -f "$COMPOSE" ps -q mssql)"
+          q() { docker exec "$1" sqlcmd -S localhost -U student -P 'Student!Pass123' \
+                 -C -d AdventureWorksLT -h -1 -W \
+                 -Q "SET NOCOUNT ON; SELECT FirstName FROM SalesLT.Customer WHERE CustomerID = 1;" | tr -d '[:space:]'; }
+          orig="$(q "$cid")"
+          echo "original: $orig"
+          docker exec -i "$cid" sqlcmd -S localhost -U student -P 'Student!Pass123' \
+            -C -d AdventureWorksLT -b < queries/99-break-something.sql
+          broken="$(q "$cid")"
+          echo "after break: $broken"
+          test "$broken" = "BROKEN"
+          docker compose -f "$COMPOSE" down -v
+          docker compose -f "$COMPOSE" up -d --wait
+          cid="$(docker compose -f "$COMPOSE" ps -q mssql)"
+          restored="$(q "$cid")"
+          echo "after rebuild: $restored"
+          test "$restored" = "$orig"
+
       - name: Tear down
         if: always()
         run: docker compose -f "$COMPOSE" down -v
