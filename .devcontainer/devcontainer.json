@@ -8,6 +8,9 @@
   "features": {
     "ghcr.io/devcontainers/features/sshd:1": {}
   },
+  // Self-check on every codespace creation: proves the student login can query
+  // AdventureWorksLT. Result is visible in the creation log (gh codespace logs).
+  "postCreateCommand": "bash .devcontainer/smoke-test.sh",
   "customizations": {
     "vscode": {
       // The MSSQL extension is the query client (Azure Data Studio is retired).
