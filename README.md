@@ -34,6 +34,12 @@ Codespaces is smoother.
 4. Run with the ▶ button (or `Ctrl/Cmd+Shift+E`). You'll get rows back from
    `SalesLT.Customer` immediately.
 
+## Course labs
+
+The lesson-by-lesson starter queries live in [`labs/`](labs/), one folder per
+lesson, each linked back to its lesson script in Confluence. Start with
+[`labs/0A.1`](labs/0A.1).
+
 ## What's connected
 
 | Setting | Value |

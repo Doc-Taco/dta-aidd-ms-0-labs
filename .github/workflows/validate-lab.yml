@@ -41,6 +41,21 @@ jobs:
           echo "SalesLT.Customer rows: ${rows:-0}"
           test "${rows:-0}" -gt 0
 
+      - name: Every starter lab query runs cleanly (as the student login)
+        run: |
+          cid="$(docker compose -f "$COMPOSE" ps -q mssql)"
+          fail=0
+          while IFS= read -r -d '' f; do
+            echo "== $f =="
+            if docker exec -i "$cid" sqlcmd -S localhost -U student -P 'Student!Pass123' \
+                 -C -d AdventureWorksLT -b < "$f"; then
+              echo "  ok"
+            else
+              echo "  FAILED: $f"; fail=1
+            fi
+          done < <(find labs -name '*.sql' -print0 | sort -z)
+          exit "$fail"
+
       - name: Tear down
         if: always()
         run: docker compose -f "$COMPOSE" down -v
