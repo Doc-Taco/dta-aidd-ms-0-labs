@@ -1,0 +1,16 @@
+{
+  "//": "Pre-seeded MSSQL connection profile for the lab. Kept at WORKSPACE scope (here) rather than in the devcontainer's customizations, because the MSSQL extension reads connection profiles from workspace/user settings — dev-container customizations land in machine-scoped settings, where the profile does not surface (see vscode-mssql#17500). Students click-to-connect: open the SQL Server view or a .sql file and pick 'AIDD-MS Lab (AdventureWorksLT)'.",
+  "mssql.connections": [
+    {
+      "profileName": "AIDD-MS Lab (AdventureWorksLT)",
+      "server": "mssql,1433",
+      "database": "AdventureWorksLT",
+      "authenticationType": "SqlLogin",
+      "user": "student",
+      "password": "Student!Pass123",
+      "savePassword": true,
+      "encrypt": "Mandatory",
+      "trustServerCertificate": true
+    }
+  ]
+}
