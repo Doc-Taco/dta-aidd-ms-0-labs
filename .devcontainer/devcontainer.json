@@ -11,6 +11,15 @@
   // Self-check on every codespace creation: proves the student login can query
   // AdventureWorksLT. Result is visible in the creation log (gh codespace logs).
   "postCreateCommand": "bash .devcontainer/smoke-test.sh",
+  // The MSSQL extension acquires its own .NET runtime (for SqlToolsService) via
+  // vscode-dotnet-runtime. In a container that acquisition can deadlock on a
+  // socket-based lock (/tmp/vscd-installedLk.sock → EADDRINUSE), so .NET never
+  // installs, SqlToolsService never starts, and mssql.runQuery is never
+  // registered ("command 'mssql.runQuery' not found"). Disabling the mutex is
+  // the runtime's documented fix for this.
+  "remoteEnv": {
+    "VSCODE_DOTNET_RUNTIME_DISABLE_MUTEX": "true"
+  },
   "customizations": {
     "vscode": {
       // The MSSQL extension is the query client (Azure Data Studio is retired).
