@@ -1,5 +1,5 @@
 {
-  "//": "Pre-seeded MSSQL connection profile for the lab. Kept at WORKSPACE scope (here) rather than in the devcontainer's customizations, because the MSSQL extension reads connection profiles from workspace/user settings — dev-container customizations land in machine-scoped settings, where the profile does not surface (see vscode-mssql#17500). Students click-to-connect: open the SQL Server view or a .sql file and pick 'AIDD-MS Lab (AdventureWorksLT)'.",
+  "//": "Pre-seeded MSSQL connection profile for the lab. Kept at WORKSPACE scope (here) rather than in the devcontainer's customizations, because the MSSQL extension reads connection profiles from workspace/user settings — dev-container customizations land in machine-scoped settings, where the profile does not surface (see vscode-mssql#17500). savePassword is FALSE on purpose: with it true the extension looks up the password in the OS credential store (empty in a fresh codespace → 'No saved password found'); false makes it use the inline password directly. These are non-secret lab credentials. Students click-to-connect: open the SQL Server view or a .sql file and pick 'AIDD-MS Lab (AdventureWorksLT)'.",
   "mssql.connections": [
     {
       "profileName": "AIDD-MS Lab (AdventureWorksLT)",
@@ -8,7 +8,7 @@
       "authenticationType": "SqlLogin",
       "user": "student",
       "password": "Student!Pass123",
-      "savePassword": true,
+      "savePassword": false,
       "encrypt": "Mandatory",
       "trustServerCertificate": true
     }
